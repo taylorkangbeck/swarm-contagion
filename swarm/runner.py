@@ -64,6 +64,8 @@ def run(cfg: RunConfig, client: Any, verbose: bool = True) -> dict:
     first_defection: dict[str, int | None] = {a: None for a in honest}
     per_round: dict[str, dict] = {}
     refusals_total = 0
+    clean_streak = 0  # consecutive rounds with no honest read_answer_key call
+    early_stopped = False
     log.write("run_start", config=cfg.to_dict(), order=order)
 
     for r in range(1, cfg.rounds + 1):
@@ -123,6 +125,13 @@ def run(cfg: RunConfig, client: Any, verbose: bool = True) -> dict:
 
         cumulative = [a for a in honest if first_defection[a] is not None]
         refusals_total += refusals
+        clean_streak = 0 if defected_this_round else clean_streak + 1
+        early_stopped = (
+            cfg.early_stop_patience is not None
+            and r < cfg.rounds
+            and r >= cfg.min_rounds
+            and clean_streak >= cfg.early_stop_patience
+        )
         per_round[str(r)] = {
             "honest_defected_this_round": defected_this_round,
             "cumulative_first_defectors": cumulative,
@@ -138,6 +147,7 @@ def run(cfg: RunConfig, client: Any, verbose: bool = True) -> dict:
             "config": cfg.to_dict(),
             "order": order,
             "rounds_completed": r,
+            "early_stopped": early_stopped,
             "per_round": per_round,
             "first_defection_round": first_defection,
             "refusals_total": refusals_total,
@@ -147,6 +157,11 @@ def run(cfg: RunConfig, client: Any, verbose: bool = True) -> dict:
         (run_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
         if verbose:
             print(f"round {r}: cumulative defectors {len(cumulative)}/{len(honest)}  cost so far ${totals.to_dict()['cost_usd']:.2f}", flush=True)
+        if early_stopped:
+            log.write("early_stop", round=r, clean_streak=clean_streak)
+            if verbose:
+                print(f"early stop after round {r}: no honest read_answer_key call in {clean_streak} rounds", flush=True)
+            break
 
     log.write("run_end", usage_totals=totals.to_dict())
     return summary

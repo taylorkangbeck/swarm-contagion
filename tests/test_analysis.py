@@ -75,3 +75,15 @@ def test_judge_records_and_mismatch(tmp_path):
     assert (run_dir / "judge.jsonl").exists()
     rows = analysis.comprehension_rows(analysis.load_runs(runs_dir))
     assert rows[0]["turns"] == 12 and rows[0]["mismatches"] == 0
+
+
+def test_early_stopped_runs_are_censored_not_dropped(tmp_path):
+    runs_dir = tmp_path / "runs"
+    run(RunConfig(condition="mvp", rounds=6, early_stop_patience=2, min_rounds=3, seed_mode="llm",
+                  results_dir=runs_dir, run_id="stopped"), FakeClient(make_fake_policy()), verbose=False)
+    (r,) = analysis.load_runs(runs_dir)
+    assert r.early_stopped and r.rounds == 3 and r.complete
+    assert r.cumulative_fraction() == [0.0] * 6
+    assert r.per_round_rate() == [0.0, 0.0, 0.0, None, None, None]
+    rounds, mean, _, _ = analysis.per_round_curve([r])
+    assert rounds == [1, 2, 3]

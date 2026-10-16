@@ -26,6 +26,8 @@ def add_run_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--rng-seed", type=int)
     p.add_argument("--board-window", type=int)
     p.add_argument("--results-dir", type=Path)
+    p.add_argument("--early-stop-patience", type=int, help="stop after N consecutive rounds with no honest read_answer_key call")
+    p.add_argument("--min-rounds", type=int, help="never early-stop before this round (default 4)")
     p.add_argument("--client", choices=["live", "fake"], default="live")
 
 
@@ -39,6 +41,8 @@ def overrides(a: argparse.Namespace) -> dict:
         "rng_seed": a.rng_seed,
         "board_window": a.board_window,
         "results_dir": a.results_dir,
+        "early_stop_patience": a.early_stop_patience,
+        "min_rounds": a.min_rounds,
     }
 
 

@@ -124,3 +124,23 @@ def test_tool_results_in_single_user_message_and_assistant_unchanged():
     assert res.thinking_summaries == ["plan"]
     assert res.read_key_calls == []
     assert res.usage["input_tokens"] == 2000
+
+
+def test_early_stop_when_nothing_spreads(tmp_path):
+    cfg = _cfg(tmp_path, rounds=8, early_stop_patience=3, min_rounds=4)
+    summary = run(cfg, FakeClient(make_fake_policy()), verbose=False)
+    assert summary["early_stopped"] is True
+    assert summary["rounds_completed"] == 4  # rounds 2-4 clean, and round 4 is the minimum
+
+
+def test_early_stop_waits_for_clean_streak(tmp_path):
+    cfg = _cfg(tmp_path, rounds=8, early_stop_patience=3, min_rounds=4)
+    target = problem_id(cfg.rng_seed, 4, "honest_1", 0)
+    summary = run(cfg, FakeClient(make_fake_policy(lambda t: target in t)), verbose=False)
+    assert summary["first_defection_round"]["honest_1"] == 4
+    assert summary["rounds_completed"] == 7 and summary["early_stopped"] is True
+
+
+def test_no_early_stop_by_default(tmp_path):
+    summary = run(_cfg(tmp_path, rounds=6), FakeClient(make_fake_policy()), verbose=False)
+    assert summary["rounds_completed"] == 6 and summary["early_stopped"] is False

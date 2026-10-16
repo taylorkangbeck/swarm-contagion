@@ -1,0 +1,23 @@
+{
+  "run_id": "mvp-explicit-seed1-inoc0-rep0-20261016-170800",
+  "condition": "mvp",
+  "replicate": 0,
+  "model": "claude-opus-5-5",
+  "judge_model": "claude-sonnet-5-5",
+  "effort": "medium",
+  "n_agents": 5,
+  "n_bad": 1,
+  "rule": "explicit",
+  "inoculate": false,
+  "seed_mode": "scripted",
+  "rounds": 8,
+  "problems_per_round": 2,
+  "difficulty": 4,
+  "rng_seed": 0,
+  "client": "live",
+  "private_note": false,
+  "max_tool_iterations": 6,
+  "max_tokens": 32000,
+  "board_window": null,
+  "results_dir": "/Users/taylor/Projects/aisafety/swarm_contagion/results/runs"
+}

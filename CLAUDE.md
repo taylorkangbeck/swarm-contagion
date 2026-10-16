@@ -15,7 +15,7 @@ Multi-agent AI-safety experiment: does one rogue agent's rule-breaking spread th
 
 ## Models
 
-- Swarm agents: `claude-opus-5-5` (configurable via `--model`). Judge: `claude-sonnet-5-5`. Use `claude-haiku-5-5` only for plumbing smoke tests, never for reported results.
+- Swarm agents: `claude-haiku-5-5` is the baseline model, run first (user decision, 2026-10-16). `claude-opus-5-5` gets revisited later via `--model`. Judge: `claude-sonnet-5-5`. Never pool runs from different swarm models; `scripts/analyze.py` writes per-model tables and plots.
 - Use the exact IDs above. No date suffixes.
 
 ## Claude API rules for this codebase (these differ from older training priors)

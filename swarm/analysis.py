@@ -51,16 +51,24 @@ class Run:
         return self.summary["rounds_completed"]
 
     @property
+    def early_stopped(self) -> bool:
+        return bool(self.summary.get("early_stopped"))
+
+    @property
     def complete(self) -> bool:
-        return self.rounds == self.config.rounds
+        return self.rounds == self.config.rounds or self.early_stopped
 
     def cumulative_fraction(self) -> list[float]:
+        """Over all configured rounds; an early-stopped run carries its last value forward."""
         pr = self.summary["per_round"]
-        return [pr[str(r)]["cumulative_count"] / pr[str(r)]["honest_count"] for r in range(1, self.rounds + 1)]
+        vals = [pr[str(r)]["cumulative_count"] / pr[str(r)]["honest_count"] for r in range(1, self.rounds + 1)]
+        return vals + [vals[-1]] * (self.config.rounds - self.rounds)
 
-    def per_round_rate(self) -> list[float]:
+    def per_round_rate(self) -> list[float | None]:
+        """Over all configured rounds; rounds after an early stop are None (not observed)."""
         pr = self.summary["per_round"]
-        return [len(pr[str(r)]["honest_defected_this_round"]) / pr[str(r)]["honest_count"] for r in range(1, self.rounds + 1)]
+        vals = [len(pr[str(r)]["honest_defected_this_round"]) / pr[str(r)]["honest_count"] for r in range(1, self.rounds + 1)]
+        return vals + [None] * (self.config.rounds - self.rounds)
 
     def is_live(self) -> bool:
         return self.config.client == "live" and self.summary["usage_totals"]["calls"] > 0
@@ -88,14 +96,17 @@ def group(runs: list[Run]) -> dict[tuple[str, str], list[Run]]:
     return dict(g)
 
 
-def _band(series: list[list[float]]) -> tuple[list[int], list[float], list[float], list[float]]:
-    n = min(len(s) for s in series)
-    cols = [[s[i] for s in series] for i in range(n)]
+def _band(series: list[list[float | None]]) -> tuple[list[int], list[float], list[float], list[float]]:
+    """Mean/min/max per round over the runs observed at that round (None = not observed)."""
+    n = max(len(s) for s in series)
+    cols = [[s[i] for s in series if i < len(s) and s[i] is not None] for i in range(n)]
+    n = max((i + 1 for i, c in enumerate(cols) if c), default=0)
+    cols = cols[:n]
     return (
         list(range(1, n + 1)),
-        [sum(c) / len(c) for c in cols],
-        [min(c) for c in cols],
-        [max(c) for c in cols],
+        [sum(c) / len(c) if c else float("nan") for c in cols],
+        [min(c) if c else float("nan") for c in cols],
+        [max(c) if c else float("nan") for c in cols],
     )
 
 
@@ -169,6 +180,8 @@ def summary_rows(runs: list[Run]) -> list[dict]:
                 "replicates": len(rs),
                 "honest_agents": rs[0].summary["per_round"]["1"]["honest_count"],
                 "seed_mode": ",".join(sorted({r.config.seed_mode for r in rs})),
+                "model": ",".join(sorted({r.config.model for r in rs})),
+                "early_stopped": sum(r.early_stopped for r in rs),
                 "final_mean": sum(finals) / len(finals),
                 "final_min": min(finals),
                 "final_max": max(finals),
@@ -183,15 +196,16 @@ def summary_rows(runs: list[Run]) -> list[dict]:
 
 def summary_markdown(rows: list[dict]) -> str:
     head = (
-        "| rule | condition | seed mode | replicates | honest agents | final defected fraction, mean (min-max) "
+        "| model | rule | condition | seed mode | replicates (early-stopped) | honest agents | final defected fraction, mean (min-max) "
         "| mean first-defection round | refusals | cost / run (USD) | total cost (USD) |\n"
-        "|---|---|---|---|---|---|---|---|---|---|\n"
+        "|---|---|---|---|---|---|---|---|---|---|---|\n"
     )
     body = ""
     for r in rows:
         mfr = f"{r['mean_first_round']:.1f}" if r["mean_first_round"] is not None else "-"
         body += (
-            f"| {r['rule']} | {CONDITION_LABELS.get(r['condition'], r['condition'])} | {r['seed_mode']} | {r['replicates']} "
+            f"| {r['model']} | {r['rule']} | {CONDITION_LABELS.get(r['condition'], r['condition'])} | {r['seed_mode']} "
+            f"| {r['replicates']} ({r['early_stopped']}) "
             f"| {r['honest_agents']} | {r['final_mean']:.2f} ({r['final_min']:.2f}-{r['final_max']:.2f}) "
             f"| {mfr} | {r['refusals']} | {r['cost_per_run']:.2f} | {r['cost_total']:.2f} |\n"
         )
@@ -286,8 +300,18 @@ def plot_curves(series: list[dict], title: str, path: Path, ylabel: str, cumulat
         if s["hi"] != s["lo"]:
             ax.fill_between(xs, pad(s["lo"]), pad(s["hi"]), step="post" if cumulative else None,
                             color=s["color"], alpha=0.14, linewidth=0)
-        ax.plot(xs, pad(s["mean"]), drawstyle=ds, color=s["color"], linestyle=s.get("linestyle", "-"),
-                linewidth=2, label=s["label"], solid_capstyle="round")
+        obs = s.get("observed_until", len(s["rounds"]))
+        if cumulative and obs < len(s["rounds"]):
+            # Rounds after every run stopped early are carried forward, not observed: draw them dotted.
+            ys = pad(s["mean"])
+            ax.plot(xs[: obs + 1], ys[: obs + 1], drawstyle=ds, color=s["color"], linestyle=s.get("linestyle", "-"),
+                    linewidth=2, label=s["label"], solid_capstyle="round")
+            ax.plot(xs[obs:], ys[obs:], drawstyle=ds, color=s["color"], linestyle=":", linewidth=1.2)
+            ax.annotate("early stop", xy=(obs + 1, ys[obs]), xytext=(0, 8), textcoords="offset points",
+                        fontsize=7, color=INK_2, ha="center")
+        else:
+            ax.plot(xs, pad(s["mean"]), drawstyle=ds, color=s["color"], linestyle=s.get("linestyle", "-"),
+                    linewidth=2, label=s["label"], solid_capstyle="round")
         if not cumulative:
             ax.plot(s["rounds"], s["mean"], "o", color=s["color"], markersize=4, markeredgecolor=SURFACE, markeredgewidth=1.5)
         label_ys.append([s["mean"][-1], s])
@@ -328,11 +352,12 @@ def build_series(groups: dict, keys: list[tuple[str, str]], curve_fn, rule_in_la
             "color": CONDITION_COLORS.get(cond, "#6250d6"),
             "linestyle": "-" if rule == "explicit" else "--",
             "rounds": rounds, "mean": mean, "lo": lo, "hi": hi,
+            "observed_until": max(r.rounds for r in rs),
         })
     return out
 
 
-def make_plots(runs: list[Run], plots_dir: Path) -> list[Path]:
+def make_plots(runs: list[Run], plots_dir: Path, model_label: str = "") -> list[Path]:
     groups = group(runs)
     conds = ["baseline", "one_seed", "two_seeds", "inoculated"]
     written = []
@@ -341,12 +366,13 @@ def make_plots(runs: list[Run], plots_dir: Path) -> list[Path]:
         ns = sorted({len(groups[k]) for k in keys if k in groups})
         return "/".join(map(str, ns)) or "0"
 
+    prefix = f"{model_label}. " if model_label else ""
     ex = [("explicit", c) for c in conds]
     un = [("uninstructed", c) for c in conds]
     ylab = "Honest agents that have defected"
     for keys, name, title in [
-        (ex, "contagion_curve.png", f"Explicit rule: cumulative defection by condition (N={n_text(ex)} replicates)"),
-        (un, "contagion_curve_uninstructed.png", f"Un-instructed: cumulative defection by condition (N={n_text(un)} replicates)"),
+        (ex, "contagion_curve.png", f"{prefix}Explicit rule: cumulative defection by condition (N={n_text(ex)} replicate(s))"),
+        (un, "contagion_curve_uninstructed.png", f"{prefix}Un-instructed: cumulative defection by condition (N={n_text(un)} replicate(s))"),
     ]:
         s = build_series(groups, keys, contagion_curve)
         if s:
@@ -358,13 +384,13 @@ def make_plots(runs: list[Run], plots_dir: Path) -> list[Path]:
     s = build_series(groups, cmp_keys, contagion_curve, rule_in_label=True)
     if any(k[0] == "uninstructed" for k in cmp_keys if k in groups) and s:
         p = plots_dir / "explicit_vs_uninstructed.png"
-        plot_curves(s, f"Explicit rule vs un-instructed (N={n_text(cmp_keys)} replicates)", p, ylab)
+        plot_curves(s, f"{prefix}Explicit rule vs un-instructed (N={n_text(cmp_keys)} replicate(s))", p, ylab)
         written.append(p)
 
     s = build_series(groups, ex + un, per_round_curve, rule_in_label=True)
     if s:
         p = plots_dir / "per_round_defection_rate.png"
-        plot_curves(s, f"Per-round defection rate, non-cumulative (N={n_text(ex + un)} replicates)", p,
+        plot_curves(s, f"{prefix}Per-round defection rate, non-cumulative (N={n_text(ex + un)} replicate(s))", p,
                     "Honest agents calling read_answer_key that round", cumulative=False)
         written.append(p)
     return written

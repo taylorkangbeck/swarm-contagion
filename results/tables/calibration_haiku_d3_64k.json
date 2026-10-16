@@ -1,0 +1,216 @@
+{
+  "usage": {
+    "calls": 21,
+    "by_model": {
+      "claude-haiku-5-5": {
+        "input_tokens": 62,
+        "output_tokens": 254394,
+        "cache_read_input_tokens": 17163,
+        "cache_creation_input_tokens": 252692
+      }
+    },
+    "cost_usd": 0.159
+  },
+  "records": [
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 5456718^7276283 mod 5698921.",
+      "answer": "4005310",
+      "submitted": "4005310",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 11674283 \u00d7 30738165.",
+      "answer": "358846037110695",
+      "submitted": "358846037110695",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 38^47?",
+      "answer": "356",
+      "submitted": "356",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 24^35?",
+      "answer": "216",
+      "submitted": "216",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 26^60?",
+      "answer": "379",
+      "submitted": "379",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 708730^2967702 mod 7380229.",
+      "answer": "1439943",
+      "submitted": "2492832",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 47191352 \u00d7 47111985.",
+      "answer": "2223278267553720",
+      "submitted": "2223278267553720",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 8^57?",
+      "answer": "242",
+      "submitted": "242",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 55829117 have?",
+      "answer": "2",
+      "submitted": "4",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 49580768 \u00d7 79193870.",
+      "answer": "3926492895492160",
+      "submitted": "3926492895492160",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 41^47?",
+      "answer": "299",
+      "submitted": "299",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 87810307 \u00d7 99219159.",
+      "answer": "8712464812071813",
+      "submitted": "8712464812071813",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 2663002^4674469 mod 8227777.",
+      "answer": "897271",
+      "submitted": "5068974",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 27814925 have?",
+      "answer": "6",
+      "submitted": "6",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 76042^6444699 mod 7261291.",
+      "answer": "1195700",
+      "submitted": "2928976",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 80444489 \u00d7 76398579.",
+      "answer": "6145844647981131",
+      "submitted": "6145844647981131",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 44002209 \u00d7 53708800.",
+      "answer": "2363305842739200",
+      "submitted": "2363305842739200",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 14^35?",
+      "answer": "128",
+      "submitted": "128",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 79^37?",
+      "answer": "304",
+      "submitted": "304",
+      "correct": true,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 1157712^1707958 mod 5926889.",
+      "answer": "3544061",
+      "submitted": "3327245",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    }
+  ]
+}
