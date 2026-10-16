@@ -103,7 +103,7 @@ class LLM:
             output_config={"effort": self.effort},
             cache_control={"type": "ephemeral"},
         )
-        response = self._with_retries(lambda: self.client.messages.create(**kwargs), context)
+        response = self._with_retries(lambda: self._stream(kwargs), context)
         usage = usage_dict(response.usage)
         self.totals.add(self.model, usage)
         stop_details = getattr(response, "stop_details", None)
@@ -117,6 +117,12 @@ class LLM:
             **context,
         )
         return response
+
+    def _stream(self, kwargs: dict) -> Message:
+        # Streaming so max_tokens can exceed the non-streaming HTTP timeout limit;
+        # we only need the final message, not the events.
+        with self.client.messages.stream(**kwargs) as stream:
+            return stream.get_final_message()
 
     def _with_retries(self, fn: Callable[[], Message], context: dict) -> Message:
         attempt = 0
@@ -177,6 +183,20 @@ def fake_message(content: list, stop_reason: str = "tool_use", model: str = "fak
     )
 
 
+class _FakeStream:
+    def __init__(self, message: Message):
+        self.message = message
+
+    def __enter__(self) -> "_FakeStream":
+        return self
+
+    def __exit__(self, *exc) -> None:
+        return None
+
+    def get_final_message(self) -> Message:
+        return self.message
+
+
 class _FakeMessages:
     def __init__(self, owner: "FakeClient"):
         self.owner = owner
@@ -190,6 +210,9 @@ class _FakeMessages:
         if not self.owner.script:
             raise RuntimeError("FakeClient script exhausted")
         return self.owner.script.pop(0)
+
+    def stream(self, **kwargs) -> "_FakeStream":
+        return _FakeStream(self.create(**kwargs))
 
     def parse(self, **kwargs):
         self.owner.calls.append(kwargs)

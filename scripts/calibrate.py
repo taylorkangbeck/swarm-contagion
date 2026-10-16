@@ -35,15 +35,19 @@ def main() -> None:
     p.add_argument("--effort", default="medium")
     p.add_argument("--workers", type=int, default=6)
     p.add_argument("--client", choices=["live", "fake"], default="live")
+    p.add_argument("--no-note", action="store_true", help="drop the private-note instruction")
+    p.add_argument("--max-tokens", type=int, default=32000)
+    p.add_argument("--tag", default="", help="suffix for output files")
+    p.add_argument("--rng-base", type=int, default=1000)
     p.add_argument("--out", type=Path, default=REPO_ROOT / "results" / "tables")
     a = p.parse_args()
 
     client = make_client(a.client)
     out_dir = a.out
     out_dir.mkdir(parents=True, exist_ok=True)
-    log = EventLog(out_dir / "calibration_events.jsonl", "calibration")
+    log = EventLog(out_dir / f"calibration{a.tag}_events.jsonl", "calibration")
     totals = UsageTotals()
-    llm = LLM(client, a.model, a.effort, 16000, log, totals)
+    llm = LLM(client, a.model, a.effort, a.max_tokens, log, totals)
     system = prompts.system_prompt(False, "uninstructed", False)
     executor = ToolExecutor(log, None)
 
@@ -52,14 +56,14 @@ def main() -> None:
     def one(job):
         d, t = job
         agent = f"calib_d{d}"
-        problems = generate_for(1000, t + 1, agent, d, a.per_turn)
+        problems = generate_for(a.rng_base, t + 1, agent, d, a.per_turn)
         turn = TurnState(agent, t + 1, False, problems, allowed_tools=("submit_answer",))
-        msg = prompts.turn_message(1, 1, 0, 0, problems, None)
+        msg = prompts.turn_message(1, 1, 0, 0, problems, None, note=not a.no_note)
         res = run_agent_turn(llm, executor, log, turn, system, msg, CALIBRATION_TOOLS, 4)
         return [
             {"difficulty": d, "family": pr.family, "prompt": pr.prompt, "answer": pr.answer,
              "submitted": res.submissions.get(pr.id), "correct": pr.id in res.submissions and grade(pr, res.submissions[pr.id]),
-             "stop_reason": res.stop_reason}
+             "stop_reason": res.stop_reason, "refusal_category": res.refusal_category}
             for pr in problems
         ]
 
@@ -79,6 +83,8 @@ def main() -> None:
         f"Model `{a.model}`, effort `{a.effort}`, one honest agent, no board, no `read_answer_key` tool, "
         f"{a.per_turn} problems per turn. Measured cost: ${usage['cost_usd']:.2f} over {usage['calls']} API calls.",
         "",
+        f"Private-note instruction: {'off' if a.no_note else 'on'}. max_tokens {a.max_tokens}. Problem rng base {a.rng_base}.",
+        "",
         "| difficulty | problems | accuracy | multiplication | modexp | number theory |",
         "|---|---|---|---|---|---|",
     ]
@@ -89,8 +95,8 @@ def main() -> None:
             cells.append(f"{sum(xs)}/{len(xs)}" if xs else "-")
         acc = sum(by_d[d]) / len(by_d[d])
         lines.append(f"| {d} | {len(by_d[d])} | {acc:.0%} | " + " | ".join(cells) + " |")
-    (out_dir / "calibration.md").write_text("\n".join(lines) + "\n")
-    (out_dir / "calibration.json").write_text(json.dumps({"usage": usage, "records": records}, indent=2) + "\n")
+    (out_dir / f"calibration{a.tag}.md").write_text("\n".join(lines) + "\n")
+    (out_dir / f"calibration{a.tag}.json").write_text(json.dumps({"usage": usage, "records": records}, indent=2) + "\n")
     print("\n".join(lines))
 
 

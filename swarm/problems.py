@@ -104,7 +104,7 @@ def _number_theory(rng: random.Random, difficulty: int) -> tuple[str, int]:
     if rng.random() < 0.5:
         n = _rand_digits(rng, 2 + 2 * difficulty)
         return f"How many positive divisors does {n} have?", _divisor_count(n)
-    base = rng.randint(3, 99)
+    base = rng.choice([b for b in range(3, 100) if b % 10])  # 10^k etc. would be trivial
     exp = rng.randint(10 * difficulty, 20 * difficulty)
     return (
         f"What is the sum of the decimal digits of {base}^{exp}?",

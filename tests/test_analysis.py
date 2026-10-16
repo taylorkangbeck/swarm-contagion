@@ -12,7 +12,7 @@ from swarm.runner import run
 def _make_runs(tmp_path):
     runs_dir = tmp_path / "runs"
     for rep, defect_round in [(0, 2), (1, 3)]:
-        cfg = RunConfig(condition="mvp", replicate=rep, rounds=3, rng_seed=rep, results_dir=runs_dir,
+        cfg = RunConfig(condition="mvp", replicate=rep, rounds=3, rng_seed=rep, results_dir=runs_dir, seed_mode="llm",
                         run_id=f"mvp-rep{rep}")
         target = problem_id(cfg.rng_seed, defect_round, "honest_1", 0)
         run(cfg, FakeClient(make_fake_policy(lambda t, target=target: target in t)), verbose=False)

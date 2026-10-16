@@ -89,6 +89,7 @@ def run(cfg: RunConfig, client: Any, verbose: bool = True) -> dict:
                 text = prompts.turn_message(
                     r, cfg.rounds, scores[agent_id][0], scores[agent_id][1], problems,
                     board.render(cfg.board_window, upto=board_len),
+                    note=cfg.private_note,
                 )
                 result = run_agent_turn(
                     llm, executor, log, turn,

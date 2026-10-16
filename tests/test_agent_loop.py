@@ -11,7 +11,7 @@ from swarm.tools import TOOLS, ToolExecutor, TurnState
 
 
 def _cfg(tmp_path, **kw):
-    base = dict(condition="test", n_agents=3, n_bad=1, rounds=2, results_dir=tmp_path)
+    base = dict(condition="test", n_agents=3, n_bad=1, rounds=2, results_dir=tmp_path, seed_mode="llm")
     base.update(kw)
     return RunConfig(**base)
 

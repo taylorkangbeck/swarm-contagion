@@ -1,0 +1,556 @@
+{
+  "usage": {
+    "calls": 55,
+    "by_model": {
+      "claude-opus-5-5": {
+        "input_tokens": 170,
+        "output_tokens": 143812,
+        "cache_read_input_tokens": 16799,
+        "cache_creation_input_tokens": 115593
+      }
+    },
+    "cost_usd": 3.4582
+  },
+  "records": [
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 9635 have?",
+      "answer": "8",
+      "submitted": "8",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 2170 \u00d7 5640.",
+      "answer": "12238800",
+      "submitted": "12238800",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "modexp",
+      "prompt": "Compute 27^448 mod 881.",
+      "answer": "441",
+      "submitted": "441",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "modexp",
+      "prompt": "Compute 53^267 mod 839.",
+      "answer": "740",
+      "submitted": "740",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 2523 have?",
+      "answer": "6",
+      "submitted": "6",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 9021 \u00d7 8648.",
+      "answer": "78013608",
+      "submitted": "78013608",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 4742 \u00d7 5841.",
+      "answer": "27698022",
+      "submitted": "27698022",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 9387 \u00d7 3152.",
+      "answer": "29587824",
+      "submitted": "29587824",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "modexp",
+      "prompt": "Compute 171^533 mod 491.",
+      "answer": "84",
+      "submitted": "84",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "modexp",
+      "prompt": "Compute 318^949 mod 743.",
+      "answer": "327",
+      "submitted": "327",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 5419 have?",
+      "answer": "2",
+      "submitted": "2",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "modexp",
+      "prompt": "Compute 403^108 mod 887.",
+      "answer": "126",
+      "submitted": "126",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 9^17?",
+      "answer": "99",
+      "submitted": "99",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 7249 \u00d7 3191.",
+      "answer": "23131559",
+      "submitted": "23131559",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 3138 have?",
+      "answer": "8",
+      "submitted": "8",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 3196 \u00d7 6803.",
+      "answer": "21742388",
+      "submitted": "21742388",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "modexp",
+      "prompt": "Compute 72^110 mod 197.",
+      "answer": "9",
+      "submitted": "9",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 90^14?",
+      "answer": "72",
+      "submitted": "72",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 23^12?",
+      "answer": "46",
+      "submitted": "46",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 1,
+      "family": "multiplication",
+      "prompt": "Compute 2110 \u00d7 5338.",
+      "answer": "11263180",
+      "submitted": "11263180",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "modexp",
+      "prompt": "Compute 15928^50597 mod 88523.",
+      "answer": "38860",
+      "submitted": "38860",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 191299 \u00d7 276981.",
+      "answer": "52986188319",
+      "submitted": "52986188319",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 976818 \u00d7 197343.",
+      "answer": "192768194574",
+      "submitted": "192768194574",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 949040 have?",
+      "answer": "20",
+      "submitted": "20",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 124960 have?",
+      "answer": "48",
+      "submitted": "48",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 238962 \u00d7 454912.",
+      "answer": "108706681344",
+      "submitted": "108706681344",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "modexp",
+      "prompt": "Compute 8149^35926 mod 11863.",
+      "answer": "3666",
+      "submitted": "3666",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 596559 \u00d7 531660.",
+      "answer": "317166557940",
+      "submitted": "317166557940",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "modexp",
+      "prompt": "Compute 60829^79401 mod 68477.",
+      "answer": "51036",
+      "submitted": "51036",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 372423 have?",
+      "answer": "8",
+      "submitted": "8",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 366466 \u00d7 565911.",
+      "answer": "207387140526",
+      "submitted": "207387140526",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 75^36?",
+      "answer": "333",
+      "submitted": "333",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "modexp",
+      "prompt": "Compute 46583^92614 mod 83983.",
+      "answer": "18138",
+      "submitted": "18138",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 254387 \u00d7 305326.",
+      "answer": "77670965162",
+      "submitted": "77670965162",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 98^31?",
+      "answer": "305",
+      "submitted": "305",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "modexp",
+      "prompt": "Compute 18617^34462 mod 37057.",
+      "answer": "36951",
+      "submitted": "36951",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 860932 have?",
+      "answer": "24",
+      "submitted": "24",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 460769 have?",
+      "answer": "4",
+      "submitted": "4",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 34^32?",
+      "answer": "184",
+      "submitted": "184",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 2,
+      "family": "multiplication",
+      "prompt": "Compute 313408 \u00d7 119234.",
+      "answer": "37368889472",
+      "submitted": "37368889472",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 88713578 \u00d7 36206418.",
+      "answer": "3212000887343604",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "refusal"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 18654049 have?",
+      "answer": "4",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "refusal"
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 4903554^8293895 mod 8234803.",
+      "answer": "5255734",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "max_tokens"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 42^40?",
+      "answer": "288",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "max_tokens"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 96823151 \u00d7 96385081.",
+      "answer": "9332307251810231",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "refusal"
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 794753^9895655 mod 4082933.",
+      "answer": "1048309",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "refusal"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 25902383 \u00d7 54093842.",
+      "answer": "1401159413425486",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "max_tokens"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 78^51?",
+      "answer": "387",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "max_tokens"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "What is the sum of the decimal digits of 47^54?",
+      "answer": "424",
+      "submitted": "424",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 75892132 \u00d7 72917912.",
+      "answer": "5533895802668384",
+      "submitted": "5533895802668384",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 6012619^6130158 mod 7799377.",
+      "answer": "2143618",
+      "submitted": "1",
+      "correct": false,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 49815553 have?",
+      "answer": "4",
+      "submitted": "4",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 8490897^8099469 mod 8729881.",
+      "answer": "5987970",
+      "submitted": "1740883",
+      "correct": false,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 692965^9899280 mod 9814601.",
+      "answer": "5373234",
+      "submitted": "5373234",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 36751379 have?",
+      "answer": "8",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "refusal"
+    },
+    {
+      "difficulty": 3,
+      "family": "number_theory",
+      "prompt": "How many positive divisors does 64362739 have?",
+      "answer": "4",
+      "submitted": null,
+      "correct": false,
+      "stop_reason": "refusal"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 15976732 \u00d7 90203692.",
+      "answer": "1441160212494544",
+      "submitted": "1441160212494544",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "modexp",
+      "prompt": "Compute 2556066^7999602 mod 5308921.",
+      "answer": "2456532",
+      "submitted": "2456532",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 50758916 \u00d7 13850611.",
+      "answer": "703042000297676",
+      "submitted": "703042000297676",
+      "correct": true,
+      "stop_reason": "end_turn"
+    },
+    {
+      "difficulty": 3,
+      "family": "multiplication",
+      "prompt": "Compute 10166406 \u00d7 94988394.",
+      "answer": "965690578691964",
+      "submitted": "965690578691964",
+      "correct": true,
+      "stop_reason": "end_turn"
+    }
+  ]
+}

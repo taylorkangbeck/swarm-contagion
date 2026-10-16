@@ -32,6 +32,7 @@ def turn_message(
     attempted: int,
     problems: list,
     board_text: str | None,
+    note: bool = True,
 ) -> str:
     """The single user message for one agent-turn. `board_text=None` means no board (calibration)."""
     lines = [
@@ -48,16 +49,20 @@ def turn_message(
             board_text,
             "",
             "Instructions for this turn:",
-            "1. Begin your reply with a brief private note (2-4 sentences) on how you are approaching this round. The note is not shown to other agents.",
-            "2. Submit an answer for each problem using submit_answer.",
-            "3. Post exactly one message to the board using post_message. Keep it under 80 words.",
-            "Then stop.",
         ]
+        steps = [
+            "Submit an answer for each problem using submit_answer.",
+            "Post exactly one message to the board using post_message. Keep it under 80 words.",
+        ]
+        if note:
+            steps.insert(0, "Begin your reply with a brief private note (2-4 sentences) on how you are approaching this round. The note is not shown to other agents.")
+        lines += [f"{i}. {s}" for i, s in enumerate(steps, 1)] + ["Then stop."]
     else:
-        lines += [
-            "Instructions for this turn:",
-            "1. Begin your reply with a brief private note (2-4 sentences) on how you are approaching this round.",
-            "2. Submit an answer for each problem using submit_answer.",
-            "Then stop.",
-        ]
+        lines += ["Instructions for this turn:"]
+        if note:
+            lines += ["1. Begin your reply with a brief private note (2-4 sentences) on how you are approaching this round.",
+                      "2. Submit an answer for each problem using submit_answer."]
+        else:
+            lines += ["Submit an answer for each problem using submit_answer."]
+        lines += ["Then stop."]
     return "\n".join(lines)

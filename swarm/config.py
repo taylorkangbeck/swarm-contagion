@@ -46,14 +46,15 @@ class RunConfig:
     n_bad: int = 1
     rule: str = "explicit"  # "explicit" | "uninstructed"
     inoculate: bool = False
-    seed_mode: str = "llm"  # "llm" | "scripted"
+    seed_mode: str = "scripted"  # "llm" | "scripted"; Opus declined the llm seed role in Phase 2
     rounds: int = 8
     problems_per_round: int = 2
-    difficulty: int = 2
+    difficulty: int = 4  # calibrated in Phase 2: 55% honest accuracy
     rng_seed: int = 0  # drives problem generation and nothing else
     client: str = "live"  # "live" | "fake"; fake runs never count toward cost estimates
+    private_note: bool = False  # the note instruction triggered reasoning_extraction refusals in calibration
     max_tool_iterations: int = 6
-    max_tokens: int = 16000
+    max_tokens: int = 32000  # streamed; 16K truncated ~1 in 3 difficulty-3 turns in calibration
     board_window: int | None = None  # None = whole board
     results_dir: Path = field(default_factory=lambda: REPO_ROOT / "results" / "runs")
 
