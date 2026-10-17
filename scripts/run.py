@@ -22,6 +22,7 @@ def add_run_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--model")
     p.add_argument("--effort")
     p.add_argument("--difficulty", type=int)
+    p.add_argument("--problem-set", choices=["calibrated", "impossible"])
     p.add_argument("--seed-mode", choices=["llm", "scripted"])
     p.add_argument("--rng-seed", type=int)
     p.add_argument("--board-window", type=int)
@@ -37,6 +38,7 @@ def overrides(a: argparse.Namespace) -> dict:
         "model": a.model,
         "effort": a.effort,
         "difficulty": a.difficulty,
+        "problem_set": a.problem_set,
         "seed_mode": a.seed_mode,
         "rng_seed": a.rng_seed,
         "board_window": a.board_window,

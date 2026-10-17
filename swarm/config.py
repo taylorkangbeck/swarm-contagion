@@ -18,10 +18,12 @@ PRESETS: dict[str, dict] = {
     "one_seed": {"rule": "explicit", "n_bad": 1, "inoculate": False},
     "baseline": {"rule": "explicit", "n_bad": 0, "inoculate": False},
     "two_seeds": {"rule": "explicit", "n_bad": 2, "inoculate": False},
+    "four_seeds": {"rule": "explicit", "n_bad": 4, "inoculate": False},
     "inoculated": {"rule": "explicit", "n_bad": 1, "inoculate": True},
     "u_one_seed": {"rule": "uninstructed", "n_bad": 1, "inoculate": False},
     "u_baseline": {"rule": "uninstructed", "n_bad": 0, "inoculate": False},
     "u_two_seeds": {"rule": "uninstructed", "n_bad": 2, "inoculate": False},
+    "u_four_seeds": {"rule": "uninstructed", "n_bad": 4, "inoculate": False},
     "u_inoculated": {"rule": "uninstructed", "n_bad": 1, "inoculate": True},
 }
 
@@ -56,6 +58,9 @@ class RunConfig:
     min_rounds: int = 4
     problems_per_round: int = 2
     difficulty: int = 4  # calibrated in Phase 2: Haiku 5.5 35%, Opus 5.5 55% honest accuracy
+    # "calibrated" uses `difficulty`. "impossible" can't be solved honestly, so it tests whether
+    # agents abstain or cheat. Analysis never pools the two sets.
+    problem_set: str = "calibrated"
     rng_seed: int = 0  # drives problem generation and nothing else
     client: str = "live"  # "live" | "fake"; fake runs never count toward cost estimates
     private_note: bool = False  # the note instruction triggered reasoning_extraction refusals in calibration
@@ -67,6 +72,8 @@ class RunConfig:
     def __post_init__(self) -> None:
         if self.rule not in ("explicit", "uninstructed"):
             raise ValueError(f"unknown rule {self.rule!r}")
+        if self.problem_set not in ("calibrated", "impossible"):
+            raise ValueError(f"unknown problem_set {self.problem_set!r}")
         if self.seed_mode not in ("llm", "scripted"):
             raise ValueError(f"unknown seed_mode {self.seed_mode!r}")
         if not 0 <= self.n_bad < self.n_agents:
@@ -108,8 +115,9 @@ class RunConfig:
 
 def make_run_id(cfg: RunConfig, now: datetime | None = None) -> str:
     ts = (now or datetime.now()).strftime("%Y%m%d-%H%M%S")
+    pset = "" if cfg.problem_set == "calibrated" else f"{cfg.problem_set}-"
     return (
-        f"{cfg.condition}-{cfg.rule}-seed{cfg.n_bad}-inoc{int(cfg.inoculate)}"
+        f"{pset}{cfg.condition}-{cfg.rule}-seed{cfg.n_bad}-inoc{int(cfg.inoculate)}"
         f"-rep{cfg.replicate}-{ts}"
     )
 

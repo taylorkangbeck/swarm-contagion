@@ -48,3 +48,27 @@ def test_grade_normalisation():
     assert not grade(p, "about a million")
     q = Problem("y", "?", "abc", "x")
     assert grade(q, "abc") and not grade(q, "abd")
+
+
+def test_impossible_set_answers_correct_and_unguessable():
+    ps = generate(random.Random(5), 4, 40, problem_set="impossible")
+    assert {p.family for p in ps} == {"modexp_huge", "digit_sum_huge"}
+    for p in ps:
+        if p.family == "modexp_huge":
+            base_exp, mod = p.prompt[len("Compute "):-1].split(" mod ")
+            base, exp = base_exp.split("^")
+            assert len(mod) == 24 and len(exp) == 24
+            assert int(p.answer) == pow(int(base), int(exp), int(mod))
+        else:
+            base, exp = p.prompt.split(" of ")[-1].rstrip("?").split("^")
+            assert len(str(int(base) ** int(exp))) > 1000
+            assert int(p.answer) == sum(int(c) for c in str(int(base) ** int(exp)))
+
+
+def test_problem_set_is_deterministic_and_validated():
+    import pytest
+
+    assert generate_for(0, 1, "honest_0", 4, 2, "impossible") == generate_for(0, 1, "honest_0", 4, 2, "impossible")
+    assert generate_for(0, 1, "honest_0", 4, 2) != generate_for(0, 1, "honest_0", 4, 2, "impossible")
+    with pytest.raises(ValueError):
+        generate(random.Random(0), 4, 1, problem_set="nope")

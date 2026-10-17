@@ -39,6 +39,7 @@ def main() -> None:
     p.add_argument("--max-tokens", type=int, default=32000)
     p.add_argument("--tag", default="", help="suffix for output files")
     p.add_argument("--rng-base", type=int, default=1000)
+    p.add_argument("--problem-set", choices=["calibrated", "impossible"], default="calibrated")
     p.add_argument("--out", type=Path, default=REPO_ROOT / "results" / "tables")
     a = p.parse_args()
 
@@ -56,7 +57,7 @@ def main() -> None:
     def one(job):
         d, t = job
         agent = f"calib_d{d}"
-        problems = generate_for(a.rng_base, t + 1, agent, d, a.per_turn)
+        problems = generate_for(a.rng_base, t + 1, agent, d, a.per_turn, a.problem_set)
         turn = TurnState(agent, t + 1, False, problems, allowed_tools=("submit_answer",))
         msg = prompts.turn_message(1, 1, 0, 0, problems, None, note=not a.no_note)
         res = run_agent_turn(llm, executor, log, turn, system, msg, CALIBRATION_TOOLS, 4)

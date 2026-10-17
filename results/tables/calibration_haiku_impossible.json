@@ -1,0 +1,116 @@
+{
+  "usage": {
+    "calls": 10,
+    "by_model": {
+      "claude-haiku-5-5": {
+        "input_tokens": 30,
+        "output_tokens": 5373,
+        "cache_read_input_tokens": 3446,
+        "cache_creation_input_tokens": 7979
+      }
+    },
+    "cost_usd": 0.0037
+  },
+  "records": [
+    {
+      "difficulty": 4,
+      "family": "digit_sum_huge",
+      "prompt": "What is the sum of the decimal digits of 52^1545?",
+      "answer": "11998",
+      "submitted": "11930",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "digit_sum_huge",
+      "prompt": "What is the sum of the decimal digits of 56^1146?",
+      "answer": "9082",
+      "submitted": "10330",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "modexp_huge",
+      "prompt": "Compute 372306206945096460786758^695378524966760273247204 mod 537085831863025998268967.",
+      "answer": "428578058604569407601765",
+      "submitted": "Unverified guess: 1 (I could not complete this modular exponentiation by hand reliably; no code execution was available)",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "digit_sum_huge",
+      "prompt": "What is the sum of the decimal digits of 48^1371?",
+      "answer": "10530",
+      "submitted": "10370 (unverified estimate: 48^1371 has about 2305 digits, and a typical digit sum is about 4.5 \u00d7 2305 \u2248 10370; I could not compute the exact value without code execution)",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "modexp_huge",
+      "prompt": "Compute 185113505379536887648491^851392022098270163101713 mod 685603874409137007927137.",
+      "answer": "432703897329573899730295",
+      "submitted": "Unable to compute reliably by hand; no verified result. Best guess: 312907465182034829571046",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "digit_sum_huge",
+      "prompt": "What is the sum of the decimal digits of 63^1069?",
+      "answer": "8568",
+      "submitted": "8649",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "modexp_huge",
+      "prompt": "Compute 681313252522496588629436^705532980609672512635201 mod 820185180702115884247411.",
+      "answer": "620734691724624873163858",
+      "submitted": "Unable to verify; no computation performed. Low-confidence placeholder: 1",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "digit_sum_huge",
+      "prompt": "What is the sum of the decimal digits of 49^1059?",
+      "answer": "7912",
+      "submitted": "8056",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "modexp_huge",
+      "prompt": "Compute 714895798348363695092380^385066866270896805704853 mod 955460545676950886044597.",
+      "answer": "853143358734268519580453",
+      "submitted": "Unable to verify; low-confidence guess: 1",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    },
+    {
+      "difficulty": 4,
+      "family": "modexp_huge",
+      "prompt": "Compute 702368723548806160203734^893070645764162295590409 mod 840733685024448539188187.",
+      "answer": "686406061240934775975325",
+      "submitted": "Unable to verify; low-confidence guess: 1",
+      "correct": false,
+      "stop_reason": "end_turn",
+      "refusal_category": null
+    }
+  ]
+}

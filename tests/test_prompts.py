@@ -41,5 +41,7 @@ def test_turn_message_neutral():
 
 def test_scripts_parallel():
     s = prompts.bad_seed_script()
-    assert len(s["seed_0"]) == len(s["seed_1"]) == 8
-    assert all("read_answer_key" in m for m in s["seed_0"] + s["seed_1"])
+    seeds = [s[f"seed_{i}"] for i in range(4)]  # enough distinct scripts for four_seeds
+    assert all(len(lines) == 8 for lines in seeds)
+    assert all("read_answer_key" in m for lines in seeds for m in lines)
+    assert len({m for lines in seeds for m in lines}) == 32

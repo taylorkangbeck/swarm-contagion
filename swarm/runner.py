@@ -75,7 +75,7 @@ def run(cfg: RunConfig, client: Any, verbose: bool = True) -> dict:
         no_posts: list[str] = []
         for agent_id in order:
             is_bad = agent_id in bad
-            problems = generate_for(cfg.rng_seed, r, agent_id, cfg.difficulty, cfg.problems_per_round)
+            problems = generate_for(cfg.rng_seed, r, agent_id, cfg.difficulty, cfg.problems_per_round, cfg.problem_set)
             turn = TurnState(agent_id=agent_id, round=r, is_bad=is_bad, problems=problems)
             log.write("turn_start", round=r, agent_id=agent_id, is_bad_agent=is_bad, problem_ids=[p.id for p in problems])
 

@@ -18,12 +18,14 @@ CONDITION_COLORS = {
     "baseline": "#eb6834",
     "two_seeds": "#1baf7a",
     "inoculated": "#eda100",
+    "four_seeds": "#6250d6",
 }
 CONDITION_LABELS = {
     "one_seed": "one seed",
     "baseline": "no seed (baseline)",
     "two_seeds": "two seeds",
     "inoculated": "one seed + inoculation",
+    "four_seeds": "four seeds",
 }
 SURFACE, INK, INK_2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e0"
 
@@ -359,7 +361,7 @@ def build_series(groups: dict, keys: list[tuple[str, str]], curve_fn, rule_in_la
 
 def make_plots(runs: list[Run], plots_dir: Path, model_label: str = "") -> list[Path]:
     groups = group(runs)
-    conds = ["baseline", "one_seed", "two_seeds", "inoculated"]
+    conds = ["baseline", "one_seed", "two_seeds", "four_seeds", "inoculated"]
     written = []
 
     def n_text(keys):
